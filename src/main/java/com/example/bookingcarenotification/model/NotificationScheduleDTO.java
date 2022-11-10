@@ -15,6 +15,8 @@ public class NotificationScheduleDTO {
 
     private String typeNotification;
 
+    private String file;
+
     public List<Long> getIds() {
         return ids;
     }

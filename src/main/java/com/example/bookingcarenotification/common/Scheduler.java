@@ -29,6 +29,6 @@ public class Scheduler {
                         .stream()
                         .filter(item -> !Strings.isBlank(item.getMailScheduler()))
                         .collect(Collectors.toList());
-        mailService.sendMail(medicalExaminationScheduleDTOList);
+        mailService.sendMail(medicalExaminationScheduleDTOList, CodeConstant.NOTIFICATION_TYPE_USER_BOOKING_SCHEDULE, null);
     }
 }

@@ -6,5 +6,5 @@ import java.io.IOException;
 import java.util.List;
 
 public interface MailService {
-    void sendMail(List<MedicalExaminationScheduleDTO> medicalExaminationScheduleDTOList, String notificationType) throws IOException;
+    void sendMail(List<MedicalExaminationScheduleDTO> medicalExaminationScheduleDTOList, String notificationType, String file) throws IOException;
 }

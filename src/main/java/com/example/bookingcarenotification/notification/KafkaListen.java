@@ -32,6 +32,6 @@ public class KafkaListen {
         Gson gson = new Gson();
         NotificationScheduleDTO dto = gson.fromJson(message, NotificationScheduleDTO.class);
         List<MedicalExaminationScheduleDTO> medicalScheduleDTOS = medicalService.findAllSchedulerByIds(dto.getIds());
-        mailService.sendMail(medicalScheduleDTOS, dto.getTypeNotification());
+        mailService.sendMail(medicalScheduleDTOS, dto.getTypeNotification(), dto.getFile());
     }
 }

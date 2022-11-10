@@ -25,11 +25,11 @@ public class MailServiceImpl implements MailService {
     private JavaMailSender emailSender;
 
     @Override
-    public void sendMail(List<MedicalExaminationScheduleDTO> medicalExaminationScheduleDTOList, String typeNotification) throws IOException {
+    public void sendMail(List<MedicalExaminationScheduleDTO> medicalExaminationScheduleDTOList, String typeNotification, String file) throws IOException {
         String body = MailUtil.readBodyFromMailTemplate(typeNotification);
         for (MedicalExaminationScheduleDTO dto : medicalExaminationScheduleDTOList) {
             if (Strings.isBlank(dto.getMailScheduler())) continue;
-            String newBody = handleBodyBeforeSendMail(dto, body);
+            String newBody = handleBodyBeforeSendMail(dto, body, file);
             try {
                 MailUtil.sendMail(dto.getMailScheduler(), newBody, emailSender, true);
             } catch (MessagingException e) {
@@ -38,12 +38,12 @@ public class MailServiceImpl implements MailService {
         }
     }
 
-    private String handleBodyBeforeSendMail(MedicalExaminationScheduleDTO scheduleDTO,String body) {
+    private String handleBodyBeforeSendMail(MedicalExaminationScheduleDTO scheduleDTO,String body, String file) {
         String newBody = body.replace("__FULLNAME_SCHEDULE__", scheduleDTO.getNameScheduler())
                 .replace("__DATE_SCHEDULE__", scheduleDTO.getMedicalExaminationDay())
                 .replace("__TIME_SCHEDULE__", scheduleDTO.getMedicalExaminationTime())
                 .replace("__DOCTOR_SCHEDULE__", scheduleDTO.getNameDoctor())
                 .replace("__HOSPITAL_SCHEDULE__", scheduleDTO.getNameHospital());
-        return newBody;
+        return Strings.isBlank(file) ? newBody : newBody.replace("__FILE_SCHEDULE__", file);
     }
 }
