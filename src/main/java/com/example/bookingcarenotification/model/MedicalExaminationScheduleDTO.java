@@ -23,4 +23,5 @@ public class MedicalExaminationScheduleDTO {
 
     private String medicalExaminationTime;
 
+    private String emailDoctor;
 }

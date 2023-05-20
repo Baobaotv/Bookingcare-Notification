@@ -13,7 +13,7 @@ import java.util.List;
 public interface MedicalExaminationScheduleRepository extends JpaRepository<MedicalExaminationScheduleEntity, Long> {
 
     @Query(value = "SELECT " +
-            "new com.example.bookingcarenotification.model.MedicalExaminationScheduleDTO(m.user.fullName, m.user.email, m.hospitalName, m.doctor.fullName, m.date, w.time) " +
+            "new com.example.bookingcarenotification.model.MedicalExaminationScheduleDTO(m.user.fullName, m.user.email, m.hospitalName, m.doctor.fullName, m.date, w.time, m.doctor.email) " +
             "FROM MedicalExaminationScheduleEntity m " +
             "INNER JOIN " +
             "WorkTimeEntity w on m.workTimeID = w.id WHERE m.date = :date AND m.status = :status"
@@ -21,7 +21,7 @@ public interface MedicalExaminationScheduleRepository extends JpaRepository<Medi
     List<MedicalExaminationScheduleDTO> findAllSchedulerByDateAndStatus(@Param("date") String date, @Param("status") Integer status);
 
     @Query(value = "SELECT " +
-            "new com.example.bookingcarenotification.model.MedicalExaminationScheduleDTO(m.user.fullName, m.user.email, m.hospitalName, m.doctor.fullName, m.date, w.time) " +
+            "new com.example.bookingcarenotification.model.MedicalExaminationScheduleDTO(m.user.fullName, m.user.email, m.hospitalName, m.doctor.fullName, m.date, w.time, m.doctor.email) " +
             "FROM MedicalExaminationScheduleEntity m " +
             "INNER JOIN " +
             "WorkTimeEntity w on m.workTimeID = w.id WHERE m.id in (:ids)"

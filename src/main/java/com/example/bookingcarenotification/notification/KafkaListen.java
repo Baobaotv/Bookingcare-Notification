@@ -2,6 +2,8 @@ package com.example.bookingcarenotification.notification;
 
 import com.example.bookingcarenotification.common.CodeConstant;
 import com.example.bookingcarenotification.model.MedicalExaminationScheduleDTO;
+import com.example.bookingcarenotification.model.NotificationChangeTimeDTO;
+import com.example.bookingcarenotification.model.NotificationResetPasswordDTO;
 import com.example.bookingcarenotification.model.NotificationScheduleDTO;
 import com.example.bookingcarenotification.service.MailService;
 import com.example.bookingcarenotification.service.MedicalExaminationScheduleService;
@@ -34,4 +36,21 @@ public class KafkaListen {
         List<MedicalExaminationScheduleDTO> medicalScheduleDTOS = medicalService.findAllSchedulerByIds(dto.getIds());
         mailService.sendMail(medicalScheduleDTOS, dto.getTypeNotification(), dto.getFile());
     }
+
+    @KafkaListener(topics = CodeConstant.NOTIFICATION_RESET_PASS_TOPIC)
+    public void listenResetPassword(String message) throws IOException {
+        log.info("Kafka receive message from topic {}: {}", CodeConstant.NOTIFICATION_RESET_PASS_TOPIC, message);
+        Gson gson = new Gson();
+        NotificationResetPasswordDTO dto = gson.fromJson(message, NotificationResetPasswordDTO.class);
+        mailService.sendMailResetPassword(dto);
+    }
+
+    @KafkaListener(topics = CodeConstant.NOTIFICATION_CHANGE_TIME_TOPIC)
+    public void listenChangeTimeMedical(String message) throws IOException {
+        log.info("Kafka receive message from topic {}: {}", CodeConstant.NOTIFICATION_CHANGE_TIME_TOPIC, message);
+        Gson gson = new Gson();
+        NotificationChangeTimeDTO dto = gson.fromJson(message, NotificationChangeTimeDTO.class);
+        mailService.sendMailChangeTime(dto);
+    }
+
 }

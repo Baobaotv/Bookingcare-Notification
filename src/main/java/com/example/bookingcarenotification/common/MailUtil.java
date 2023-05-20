@@ -10,6 +10,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
 
@@ -20,16 +21,17 @@ public class MailUtil {
         MimeMessageHelper helper = new MimeMessageHelper(message, false);
         String[] arrayEmail =   emailList.toArray(new String[emailList.size()]);
         helper.setTo(arrayEmail);
-        helper.setSubject("Hệ thống chăm sóc sức khoả Booking Care");
+        helper.setSubject("Hệ thống chăm sóc sức khoẻ Booking Care");
         helper.setText(body, isHtml);
         emailSender.send(message);
     }
 
     public static void sendMail(String email, String body, JavaMailSender emailSender, Boolean isHtml) throws MessagingException {
         MimeMessage message = emailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, false);
+        MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
+//        helper.setTo("baodev1810@gmail.com");
         helper.setTo(email);
-        helper.setSubject("Hệ thống chăm sóc sức khoả Booking Care");
+        helper.setSubject("Hệ thống chăm sóc sức khoẻ Booking Care");
         helper.setText(body, isHtml);
         emailSender.send(message);
     }
@@ -48,6 +50,18 @@ public class MailUtil {
             }
             case CodeConstant.NOTIFICATION_TYPE_SEND_MEDICAL_RECORDS: {
                 fileName = CodeConstant.MAIL_TEMPLATE_SEND_MEDICAL_RECORDS;
+                break;
+            }
+            case CodeConstant.NOTIFICATION_RESET_PASS_TOPIC: {
+                fileName = CodeConstant.MAIL_TEMPLATE_RESET_PASS;
+                break;
+            }
+            case CodeConstant.NOTIFICATION_CHANGE_TIME_TOPIC: {
+                fileName = CodeConstant.MAIL_TEMPLATE_USER_UPDATE_TIME;
+                break;
+            }
+            case CodeConstant.NOTIFICATION_TYPE_CANCEL_MEDICAL : {
+                fileName = CodeConstant.MAIL_TEMPLATE_USER_CANCEL_MEDICAL;
                 break;
             }
             default:
