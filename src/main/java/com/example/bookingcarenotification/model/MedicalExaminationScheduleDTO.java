@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MedicalExaminationScheduleDTO {
 
+    private Long id;
+
     private String nameScheduler;
 
     private String mailScheduler;

@@ -25,10 +25,30 @@ public class MedicalExaminationScheduleServiceImpl implements MedicalExamination
     @Override
     public List<MedicalExaminationScheduleDTO> findAllSchedulerTakePlaceTomorrow() {
         log.debug("Request to findAllSchedulerTakePlaceTomorrow");
-        Date date = addDate(new Date());
+        Date date = addDate(new Date(), 1);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         List<MedicalExaminationScheduleDTO> medicalExaminationScheduleDTOList = repository.findAllSchedulerByDateAndStatus(formatter.format(date), CodeConstant.MEDICAL_SCHEDULE_IS_NOT_COMPLETE);
         return medicalExaminationScheduleDTOList;
+    }
+
+    @Override
+    public List<MedicalExaminationScheduleDTO> findAllSchedulerStartTwoDayAwayAndNotPayment() {
+        log.debug("Request to findAllSchedulerStartTwoDayAway");
+        Date date = addDate(new Date(), 2);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        List<MedicalExaminationScheduleDTO> medicalExaminationScheduleDTOs =
+                repository.findAllSchedulerByDateAndStatusAndStatusPayment(formatter.format(date), CodeConstant.MEDICAL_SCHEDULE_IS_NOT_COMPLETE, CodeConstant.payment_unPaid, "on");
+        return medicalExaminationScheduleDTOs;
+    }
+
+    @Override
+    public List<MedicalExaminationScheduleDTO> findAllSchedulerStartOneDayAwayAndNotPayment() {
+        log.debug("Request to findAllSchedulerStartOneDayAway And Not Payment");
+        Date date = addDate(new Date(), 1);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        List<MedicalExaminationScheduleDTO> medicalExaminationScheduleDTOs =
+                repository.findAllSchedulerByDateAndStatusAndStatusPayment(formatter.format(date), CodeConstant.MEDICAL_SCHEDULE_IS_NOT_COMPLETE, CodeConstant.payment_unPaid, "on");
+        return medicalExaminationScheduleDTOs;
     }
 
     @Override
@@ -38,10 +58,16 @@ public class MedicalExaminationScheduleServiceImpl implements MedicalExamination
         return medicalExaminationScheduleDTOList;
     }
 
-    private Date addDate(Date date) {
+    @Override
+    public void cancelMedicalByIds(List<Long> ids) {
+        log.debug("Request to cancelMedicalByIds");
+        repository.updateByStatusPayment(CodeConstant.MEDICAL_SCHEDULE_IS_CANCEL, ids);
+    }
+
+    private Date addDate(Date date, Integer totalDate) {
         Calendar c = Calendar.getInstance();
         c.setTime(date);
-        c.add(Calendar.DATE, 1);
+        c.add(Calendar.DATE, totalDate);
         return c.getTime();
     }
 }
