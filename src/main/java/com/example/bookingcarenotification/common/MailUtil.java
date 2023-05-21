@@ -60,8 +60,12 @@ public class MailUtil {
                 fileName = CodeConstant.MAIL_TEMPLATE_USER_UPDATE_TIME;
                 break;
             }
-            case CodeConstant.NOTIFICATION_TYPE_CANCEL_MEDICAL : {
+            case CodeConstant.NOTIFICATION_TYPE_CANCEL_MEDICAL: {
                 fileName = CodeConstant.MAIL_TEMPLATE_USER_CANCEL_MEDICAL;
+                break;
+            }
+            case CodeConstant.NOTIFICATION_TYPE_REMIND_USER_COMPLETE_PAYMENT: {
+                fileName = CodeConstant.MAIL_TEMPLATE_REMIND_PAYMENT_MEDICAL;
                 break;
             }
             default:
