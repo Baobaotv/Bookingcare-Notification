@@ -1,6 +1,7 @@
 package com.example.bookingcarenotification.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -15,14 +16,23 @@ public class MailConfig {
     @Autowired
     Environment environment;
 
+    @Value("${user_spring_mail}")
+    private String username;
+
+    @Value("${pass_spring_mail}")
+    private String password;
+
     @Bean
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
 
-        mailSender.setUsername(environment.getProperty("user_spring_mail"));
-        mailSender.setPassword(environment.getProperty("pass_spring_mail"));
+//        mailSender.setUsername(environment.getProperty("user_spring_mail"));
+//        mailSender.setPassword(environment.getProperty("pass_spring_mail"));
+
+        mailSender.setUsername(username);
+        mailSender.setPassword(password);
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
