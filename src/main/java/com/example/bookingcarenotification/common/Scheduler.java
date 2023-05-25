@@ -26,7 +26,7 @@ public class Scheduler {
     @Autowired
     private MailService mailService;
 
-    @Scheduled(cron = "0 10 0 * * ?")
+    @Scheduled(cron = "0 10 1 * * ?")
     public void sendMailAllMedicalStartInTomorrow() throws IOException {
 
         log.info("Start get all medical start in tomorrow");
@@ -56,7 +56,7 @@ public class Scheduler {
                 null);
     }
 
-    @Scheduled(cron = "0 0 2 * * ?")
+    @Scheduled(cron = "0 10 0 * * ?")
 //@Scheduled(cron = "0 58 16 * * ?")
     public void sendMailAllMedicalNotPaymentAndCancelMedical() throws IOException {
         log.info("Start get all medical start 1 day away and not payment");
